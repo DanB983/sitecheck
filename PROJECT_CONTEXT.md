@@ -438,6 +438,28 @@ apps/api/
   - Returns 410 if expired
   - Returns 404 if not found
 
+### Sites
+- `GET /sites` - List all sites with latest scan data
+  - Returns: `[{ "id": 1, "domain": "example.com", "display_name": "Example Ltd", "latest_scan_score": 85, "latest_scan_date": "...", "latest_scan_risk_level": "low" }]`
+- `GET /sites/{site_id}` - Get site by ID
+- `GET /sites/{site_id}/scans` - Get recent scans for a site (limit: 10)
+- `POST /sites` - Create a new site
+  - Body: `{ "domain": "example.com", "display_name": "Example Ltd" }`
+  - Auto-creates site if domain doesn't exist
+  - Domain is normalized (removes www., lowercased)
+
+### Monitoring & Alerts
+- `POST /sites/{site_id}/monitoring` - Create or update monitoring config
+  - Body: `{ "enabled": true, "frequency": "weekly" | "monthly" }`
+- `GET /sites/{site_id}/monitoring` - Get monitoring config for a site
+- `PATCH /sites/{site_id}/monitoring` - Update monitoring config
+- `GET /alerts` - Get recent alerts grouped by site
+  - Query params: `limit` (default: 50)
+  - Returns: `[{ "site_id": 1, "site_domain": "example.com", "site_display_name": "...", "alerts": [...] }]`
+- `POST /internal/run-monitoring` - Trigger monitoring for all enabled sites (internal endpoint)
+  - Can be called manually or via cron job
+  - Runs in background, returns immediately
+
 ### Stripe (Placeholder)
 - `GET /stripe/config` - Get Stripe config (placeholder)
 - `POST /stripe/create-checkout-session` - Create checkout (placeholder)
