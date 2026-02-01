@@ -1,0 +1,17 @@
+{
+  "name": "elephantfly-scan",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter web dev\" \"pnpm --filter api dev\"",
+    "dev:web": "pnpm --filter web dev",
+    "dev:api": "pnpm --filter api dev",
+    "build": "pnpm --filter web build && pnpm --filter api build",
+    "test": "pnpm --filter api test",
+    "migrate": "pnpm --filter api migrate"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
+

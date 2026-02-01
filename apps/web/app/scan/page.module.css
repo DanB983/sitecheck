@@ -1,0 +1,206 @@
+.scanPage {
+  padding: var(--spacing-xl) var(--spacing-md);
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+@media (min-width: 640px) {
+  .scanPage {
+    padding: var(--spacing-2xl) var(--spacing-lg);
+  }
+}
+
+@media (min-width: 768px) {
+  .scanPage {
+    padding: var(--spacing-4xl) 0;
+  }
+}
+
+.container {
+  max-width: 640px;
+  width: 100%;
+  padding: 0;
+}
+
+.scanCard {
+  width: 100%;
+  border: 1px solid var(--border-light);
+  background: var(--card);
+  padding: var(--spacing-lg);
+}
+
+@media (min-width: 640px) {
+  .scanCard {
+    padding: var(--spacing-xl);
+  }
+}
+
+@media (min-width: 768px) {
+  .scanCard {
+    padding: var(--spacing-2xl);
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  width: 100%;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 12px 24px;
+  font-size: var(--font-size-base);
+  min-height: var(--tap-target-min);
+  margin-top: var(--spacing-md);
+}
+
+.progressContainer {
+  margin: var(--spacing-md) 0;
+  padding: var(--spacing-md) 0;
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+  width: 100%;
+}
+
+.progressSteps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+  width: 100%;
+}
+
+.progressStep {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  opacity: 0.4;
+  transition: opacity 0.2s ease;
+}
+
+.progressStep.active {
+  opacity: 1;
+}
+
+.progressStep.completed {
+  opacity: 0.7;
+}
+
+.progressStepIndicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+.progressStep.active .progressStepIndicator {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.progressStep.completed .progressStepIndicator {
+  background: var(--success);
+  border-color: var(--success);
+}
+
+.stepNumber {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-tertiary);
+}
+
+.progressStep.active .stepNumber {
+  color: white;
+}
+
+.loadingIcon {
+  animation: spin 1s linear infinite;
+  color: white;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.checkmark {
+  font-size: 14px;
+  color: white;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+}
+
+.progressStepLabel {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.progressStep.active .progressStepLabel {
+  color: var(--text);
+  font-weight: var(--font-weight-medium);
+}
+
+.progressStep.completed .progressStepLabel {
+  color: var(--text-secondary);
+}
+
+.progressBar {
+  width: 100%;
+  height: 2px;
+  background: var(--bg-secondary);
+  border-radius: 1px;
+  overflow: hidden;
+  margin-top: var(--spacing-md);
+}
+
+.progressBarFill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 1px;
+  transition: width 0.3s ease;
+}
+
+/* Sticky CTA Bar - Mobile Only */
+.stickyCTA {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--card);
+  border-top: 1px solid var(--border-light);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+  z-index: 50;
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .stickyCTA {
+    display: block;
+  }
+}
+
+.stickyCTAButton {
+  width: 100%;
+  padding: 12px 24px;
+  font-size: var(--font-size-base);
+  min-height: var(--tap-target-min);
+}

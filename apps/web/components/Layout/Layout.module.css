@@ -1,0 +1,167 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.navbar {
+  background: var(--card);
+  border-bottom: 1px solid var(--border-light);
+  padding: var(--spacing-sm) 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.navContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .navContainer {
+    padding: 0 var(--spacing-lg);
+  }
+}
+
+@media (min-width: 768px) {
+  .navContainer {
+    padding: 0 var(--spacing-xl);
+  }
+}
+
+.logo {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text);
+  letter-spacing: -0.01em;
+  z-index: 101;
+}
+
+.navLinks {
+  display: none;
+  gap: var(--spacing-xl);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .navLinks {
+    display: flex;
+  }
+}
+
+.navLink {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  transition: color 0.15s ease;
+  padding: var(--spacing-xs) 0;
+  min-height: var(--tap-target-min);
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.navLink:hover {
+  color: var(--text);
+}
+
+/* Subtle active indicator */
+.navLink[data-active="true"] {
+  color: var(--text);
+}
+
+.navLink[data-active="true"]::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--primary);
+}
+
+.mobileMenuButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  min-height: var(--tap-target-min);
+  min-width: var(--tap-target-min);
+  z-index: 101;
+}
+
+@media (min-width: 768px) {
+  .mobileMenuButton {
+    display: none;
+  }
+}
+
+.mobileMenuOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(320px, 85vw);
+  background: var(--card);
+  box-shadow: var(--shadow-md);
+  z-index: 100;
+  padding: var(--spacing-xl) var(--spacing-lg);
+  padding-top: calc(var(--spacing-xl) + 60px);
+  overflow-y: auto;
+}
+
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  width: 100%;
+}
+
+.mobileNavLink {
+  color: var(--text);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  transition: background 0.15s ease;
+  min-height: var(--tap-target-min);
+  display: flex;
+  align-items: center;
+}
+
+.mobileNavLink:hover,
+.mobileNavLink:focus {
+  background: var(--bg-secondary);
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  overflow-x: hidden;
+}

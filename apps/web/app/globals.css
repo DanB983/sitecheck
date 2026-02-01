@@ -1,0 +1,288 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Colors - Primary Color Scheme */
+  /* Dark Gray (Primary) */
+  --primary: #1F2227;
+  --primary-hover: #323941;
+  --primary-light: #323941;
+  --primary-bg: #EEEFEF;
+  
+  /* Accent - Bright Mint Green */
+  --accent: #39EFAB;
+  --accent-light: rgba(57, 239, 171, 0.1);
+  
+  /* Backgrounds */
+  --bg: #EEEFEF;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #EEEFEF;
+  --card: #ffffff;
+  
+  /* Text Colors */
+  --text: #1F2227;
+  --text-secondary: #323941;
+  --text-tertiary: #B1B5C0;
+  --muted: #B1B5C0;
+  
+  /* Borders */
+  --border: #B1B5C0;
+  --border-light: #EEEFEF;
+  
+  /* Status Colors - Reserved for severity only */
+  --success: #39EFAB;
+  --warning: #d97706;
+  --danger: #dc2626;
+  --critical: #991b1b;
+  
+  /* Spacing Scale - More generous */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+  --spacing-4xl: 96px;
+  
+  /* Compact spacing scale for mobile-first */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  
+  /* Border Radius - Subtle */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  
+  /* Shadows - Minimal, purposeful */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  
+  /* Typography */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  
+  /* Typography Scale - Refined hierarchy */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+  
+  /* Font Weights - Lighter overall */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  
+  /* Line Heights - More readable */
+  --line-height-tight: 1.3;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.65;
+  --line-height-loose: 1.8;
+  
+  /* Mobile Tap Target */
+  --tap-target-min: 44px;
+}
+
+html {
+  width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  width: 100%;
+  overflow-x: hidden;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  color: var(--text);
+  background: var(--bg);
+  line-height: var(--line-height-relaxed);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Typography Hierarchy - Editorial, not marketing - Mobile-first with clamp() */
+h1, .h1 {
+  font-size: clamp(28px, 5vw, 36px);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--text);
+  margin-bottom: var(--spacing-lg);
+  letter-spacing: -0.02em;
+}
+
+h2, .h2 {
+  font-size: clamp(24px, 4vw, 30px);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--text);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.01em;
+}
+
+h3, .h3 {
+  font-size: clamp(20px, 3vw, 24px);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
+  color: var(--text);
+  margin-bottom: var(--spacing-md);
+}
+
+h4, .h4 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  color: var(--text);
+  margin-bottom: var(--spacing-sm);
+}
+
+h5, .h5 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  color: var(--text);
+  margin-bottom: var(--spacing-sm);
+}
+
+h6, .h6 {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  color: var(--text);
+  margin-bottom: var(--spacing-xs);
+}
+
+p, .body {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-relaxed);
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+
+small, .small {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--text-tertiary);
+}
+
+label, .label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  color: var(--text);
+  display: block;
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Mobile Tap Targets */
+button,
+a,
+input[type="button"],
+input[type="submit"],
+select {
+  min-height: var(--tap-target-min);
+  min-width: var(--tap-target-min);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Focus States - Subtle */
+*:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Sonner Toast Styles - Minimal */
+.sonner-toast {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+  font-weight: var(--font-weight-normal);
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+/* Utility Classes - Mobile-first container */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+  position: relative;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 0 var(--spacing-lg);
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 var(--spacing-xl);
+  }
+}
+
+/* Prevent horizontal scroll */
+img,
+video,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Ensure no element causes horizontal overflow */
+* {
+  max-width: 100%;
+}
+
+/* Allow specific elements to overflow if needed */
+table,
+pre,
+code {
+  max-width: 100%;
+  overflow-x: auto;
+  display: block;
+}

@@ -1,0 +1,273 @@
+.brandingPage {
+  padding: var(--spacing-xl) 0;
+  min-height: calc(100vh - 80px);
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 var(--spacing-lg);
+  }
+}
+
+.formCard {
+  margin-bottom: var(--spacing-xl);
+}
+
+.formTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.colorRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+}
+
+@media (min-width: 640px) {
+  .colorRow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.colorInput {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.colorLabel {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.colorPicker {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+.colorInputField {
+  width: 60px;
+  height: 44px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.colorInputField::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.colorInputField::-webkit-color-swatch {
+  border: none;
+  border-radius: var(--radius-sm);
+}
+
+.colorTextInput {
+  flex: 1;
+}
+
+.uploadLabel {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-xs);
+  display: block;
+}
+
+.uploadSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadButton {
+  min-height: var(--tap-target-min);
+}
+
+.logoPreview {
+  position: relative;
+  display: inline-block;
+  padding: var(--spacing-sm);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.logoPreview img {
+  max-height: 80px;
+  max-width: 200px;
+  display: block;
+}
+
+.removeLogo {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--danger);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-height: var(--tap-target-min);
+  min-width: var(--tap-target-min);
+}
+
+.uploadHint {
+  font-size: var(--font-size-sm);
+  color: var(--muted);
+  margin-top: var(--spacing-xs);
+}
+
+.submitButton {
+  width: 100%;
+  min-height: var(--tap-target-min);
+}
+
+@media (min-width: 640px) {
+  .submitButton {
+    width: auto;
+    align-self: flex-start;
+  }
+}
+
+.brandsCard {
+  margin-bottom: var(--spacing-xl);
+}
+
+.brandsTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text);
+}
+
+.loadingText,
+.emptyText {
+  color: var(--muted);
+  text-align: center;
+  padding: var(--spacing-xl);
+}
+
+.brandsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.brandItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--card);
+  transition: all 0.2s ease;
+}
+
+.brandItem:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.brandItemActive {
+  border-color: var(--primary);
+  background: var(--bg-secondary);
+}
+
+.brandInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex: 1;
+}
+
+.brandLogo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  background: white;
+  padding: var(--spacing-xs);
+}
+
+.brandDetails {
+  flex: 1;
+}
+
+.brandName {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin-bottom: var(--spacing-xs);
+  color: var(--text);
+}
+
+.brandColors {
+  display: flex;
+  gap: var(--spacing-xs);
+  align-items: center;
+}
+
+.colorSwatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: inline-block;
+}
+
+.brandActions {
+  display: flex;
+  align-items: center;
+}
+
+.activeBadge {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: var(--success);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.selectButton {
+  min-height: var(--tap-target-min);
+}
+

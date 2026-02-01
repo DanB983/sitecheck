@@ -1,0 +1,13 @@
+{
+  "name": "@elephantfly/api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "source venv/bin/activate && uvicorn main:app --host 0.0.0.0 --port 8000 --reload",
+    "start": "source venv/bin/activate && uvicorn main:app --host 0.0.0.0 --port 8000",
+    "migrate": "source venv/bin/activate && alembic upgrade head",
+    "migrate-create": "source venv/bin/activate && alembic revision --autogenerate -m",
+    "test": "source venv/bin/activate && pytest"
+  }
+}
+
