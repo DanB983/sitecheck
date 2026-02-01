@@ -8,8 +8,13 @@
 
 **Current State:**
 - ✅ **Core features working**: Scanning, reports, PDFs (neutral + branded), brand profiles, shared report viewing
+- ✅ **Multi-site dashboard**: Site management, monitoring configuration, alerts feed
+- ✅ **Monitoring & Alerts v1**: Scheduled scans, score drop detection, new critical issue alerts
+- ✅ **Mobile-first responsive**: All pages optimized for 375px+ with zero horizontal overflow
+- ✅ **Premium pricing UI**: Euro (€) currency, enterprise-grade design, conversion-focused
+- ✅ **Enterprise color palette**: Gray/mint green scheme applied throughout
 - ❌ **One missing endpoint**: `POST /scan/{scan_id}/share` - Frontend calls it but backend doesn't implement it (returns 404)
-- ⚠️ **Placeholders**: Stripe, Auth, Real LLM (all have stub implementations)
+- ⚠️ **Placeholders**: Stripe, Auth, Real LLM, Email service (all have stub implementations)
 
 **To Run:**
 1. `docker-compose -f infra/docker-compose.yml up -d` (start Postgres)
@@ -304,40 +309,62 @@ apps/api/
   - **Action Needed**: Implement the endpoint to create `SharedReportLink` records
 
 ### Frontend Features
-- ✅ Landing page with hero, features, pricing preview
-- ✅ Scan page with animated progress steps
+- ✅ Landing page with hero, features, pricing preview (Euro currency, premium design)
+- ✅ Scan page with animated progress steps, improved error handling
 - ✅ Report page with:
   - Score visualization (animated count-up)
   - Severity breakdown (tiles + Recharts pie chart)
   - Grouped findings by category
   - Filterable findings (severity, category, search)
+  - Mobile drawer for filters (bottom sheet on mobile)
   - Collapsible recommendations
   - Premium insights stub (locked cards)
   - AI summary generation
   - Back-to-top button (mobile)
   - PDF download (neutral and branded)
+- ✅ Dashboard page (`/dashboard`): Multi-site management, monitoring configuration, quick actions
+- ✅ Alerts page (`/alerts`): Alert feed grouped by site, severity badges, view report CTAs
 - ✅ Sample report page
-- ✅ Pricing page with scan_id query param support
+- ✅ Pricing page (`/pricing`): Premium design, Euro (€) currency, Site Owner/Agency toggle, expandable comparison
 - ✅ Branding settings page (`/settings/branding`)
 - ✅ Shared report page (`/shared/[token]`) - read-only view
 
+### Multi-Site Dashboard & Monitoring
+- ✅ Site model with domain normalization and display names
+- ✅ Dashboard page (`/dashboard`) with site cards, latest scan scores, quick actions
+- ✅ Site management: Add site modal, view report, rescan, monitoring configuration
+- ✅ Monitoring configuration per site (weekly/monthly frequency, enable/disable)
+- ✅ Scheduled monitoring service with score drop detection (≥10 points)
+- ✅ Alert system for score drops and new critical/high issues
+- ✅ Alerts page (`/alerts`) with grouped feed by site
+- ✅ Internal monitoring trigger endpoint (`POST /internal/run-monitoring`)
+- ✅ Email service stub (console.log placeholder for production integration)
+
 ### UI/UX Enhancements
-- ✅ Mobile-first responsive design
-- ✅ Hamburger menu for mobile navigation
+- ✅ Mobile-first responsive design (375px, 390px, 414px optimized)
+- ✅ Hamburger menu for mobile navigation with ESC key support
 - ✅ Desktop-only page transitions (Framer Motion)
 - ✅ Sonner toast notifications
 - ✅ Reduced motion support
 - ✅ Sticky CTA on scan page (mobile)
-- ✅ Collapsible filters drawer (mobile)
+- ✅ Collapsible filters drawer (mobile) - bottom sheet style
 - ✅ Premium design system with CSS Modules
+- ✅ Enterprise color palette: Gray (#1F2227, #323941, #B1B5C0, #EEEFEF) + Mint accent (#39EFAB)
+- ✅ Professional typography hierarchy with clamp() for responsive text
+- ✅ Zero horizontal scrolling across all pages
+- ✅ Touch-friendly tap targets (44px minimum)
 
 ### Design System
 - ✅ CSS variables for colors, spacing, shadows
-- ✅ Reusable UI components (Button, Card, Badge, Input, Modal)
-- ✅ Consistent typography hierarchy
+- ✅ Enterprise color palette: Dark gray primary, mint green accent, muted grays
+- ✅ Compact spacing scale (--s1 through --s7) for mobile-first design
+- ✅ Reusable UI components (Button with fullWidth prop, Card, Badge, Input, Modal)
+- ✅ Consistent typography hierarchy with clamp() for responsive scaling
 - ✅ Subtle animations and hover effects
 - ✅ Accessible focus states
 - ✅ Mobile tap targets (44px minimum)
+- ✅ Professional pricing UI with Euro (€) currency display
+- ✅ Premium card designs with subtle elevation and accent borders
 
 ---
 
@@ -452,9 +479,16 @@ pytest
 - `email` (Unique, String)
 - `created_at` (DateTime)
 
+### Sites Table
+- `id` (Primary Key, Integer)
+- `domain` (String, unique, indexed) - Normalized domain
+- `display_name` (String) - User-friendly site name
+- `created_at` (DateTime)
+
 ### Scans Table
 - `id` (Primary Key, Integer)
 - `user_id` (Foreign Key to users.id, nullable)
+- `site_id` (Foreign Key to sites.id, nullable, indexed) - Links scan to site
 - `url` (String, indexed)
 - `normalized_url` (String, nullable)
 - `final_url` (String, nullable)
@@ -490,10 +524,30 @@ pytest
 - `expires_at` (DateTime, nullable)
 - `created_at` (DateTime)
 
+### Monitoring Configs Table
+- `id` (Primary Key, Integer)
+- `site_id` (Foreign Key to sites.id, unique, indexed)
+- `frequency` (Enum: weekly/monthly, default: weekly)
+- `enabled` (Boolean, default: false)
+- `last_run_at` (DateTime, nullable)
+- `created_at` (DateTime)
+
+### Alerts Table
+- `id` (Primary Key, Integer)
+- `site_id` (Foreign Key to sites.id, indexed)
+- `scan_id` (Foreign Key to scans.id, indexed)
+- `alert_type` (Enum: score_drop/new_critical/new_high)
+- `message` (Text)
+- `created_at` (DateTime)
+
 ### Relationships
 - User → Scans (one-to-many)
+- Site → Scans (one-to-many, cascade delete)
+- Site → MonitoringConfig (one-to-one, cascade delete)
+- Site → Alerts (one-to-many, cascade delete)
 - Scan → Findings (one-to-many, cascade delete)
 - Scan → SharedReportLinks (one-to-many, cascade delete)
+- Scan → Alerts (one-to-many)
 
 ---
 
@@ -537,7 +591,14 @@ pytest
    - No actual API calls to OpenAI/DeepSeek/etc.
 
 5. **Email Delivery**
-   - Not implemented
+   - Email service stub exists (`apps/api/app/services/email_service.py`)
+   - Currently logs to console: `print("EMAIL:", alert.message)`
+   - Needs integration with SendGrid, AWS SES, Mailgun, or similar
+
+6. **Background Task Runner**
+   - Monitoring currently uses FastAPI BackgroundTasks (v1)
+   - For production, consider Celery or RQ for proper scheduling
+   - Internal endpoint `/internal/run-monitoring` can be called via cron
 
 ### 🐛 Known Issues
 
@@ -552,18 +613,18 @@ pytest
 - [ ] Stripe payment integration
 - [ ] User authentication (optional)
 - [ ] Real LLM integration (beyond stub)
-- [ ] Email report delivery
-- [ ] Dashboard page implementation
+- [ ] Email delivery integration (replace console.log stub)
+- [ ] Background task runner for monitoring (Celery/RQ for production)
 - [ ] User account management
 
 ### Medium Priority
 - [ ] Dark mode support
 - [ ] Export reports (CSV, JSON)
-- [ ] Scheduled scans
-- [ ] Scan history
-- [ ] Comparison reports
+- [ ] Scan history improvements
+- [ ] Comparison reports (compare scans over time)
 - [ ] API rate limiting
 - [ ] Caching layer
+- [ ] Daily monitoring frequency (currently weekly/monthly only)
 
 ### Low Priority
 - [ ] Multi-language support
@@ -635,6 +696,12 @@ pytest
 ### 2024 - Development Progress
 
 #### Recent Additions (2024-12-19)
+- ✅ **Multi-Site Dashboard**: Site management, monitoring configuration, alerts feed
+- ✅ **Monitoring & Alerts v1**: Scheduled scans, score drop detection (≥10 points), new critical/high issue alerts
+- ✅ **Mobile-First Responsive Redesign**: Complete refactor for 375px+ with zero horizontal overflow
+- ✅ **Premium Pricing UI**: Euro (€) currency, enterprise-grade design, Site Owner/Agency toggle, expandable comparison
+- ✅ **Enterprise Color Palette**: Gray/mint green scheme (#1F2227, #323941, #B1B5C0, #EEEFEF, #39EFAB)
+- ✅ **Enhanced Error Handling**: Clear database connection error messages, 503 handling
 - ✅ Brand profile system (models, API, frontend settings page)
 - ✅ Branded PDF generation with custom logos, colors, and footer text
 - ✅ Consultant-grade PDF v2 (cover page, TOC, page numbers, quick wins, appendix)
@@ -645,7 +712,6 @@ pytest
   - ✅ Share modal UI on report page
   - ❌ **MISSING**: `POST /scan/{scan_id}/share` endpoint (frontend calls it, but 404)
 - ✅ Premium feature gating for branded PDFs (402 Payment Required)
-- ✅ Mobile-first responsive design optimizations
 - ✅ Desktop-only page transitions (Framer Motion)
 - ✅ Sonner toast integration
 
@@ -715,7 +781,11 @@ If you're picking up this project, here's what to focus on:
 - ✅ Download PDF reports (neutral and branded)
 - ✅ Create brand profiles for white-label PDFs
 - ✅ View shared reports via token (read-only)
-- ✅ Mobile-responsive UI with premium design
+- ✅ Multi-site dashboard with monitoring configuration
+- ✅ Scheduled monitoring with alerts (score drops, new critical issues)
+- ✅ Mobile-responsive UI with premium enterprise design (375px+)
+- ✅ Premium pricing page with Euro (€) currency
+- ✅ Alerts feed page with grouped notifications
 
 ### What's Broken/Missing
 - ❌ **Share link creation** - Frontend calls `/scan/{scan_id}/share` but endpoint doesn't exist (404)
@@ -748,4 +818,4 @@ make dev
 ---
 
 *Last updated: 2024-12-19*
-*Project Status: Active Development - Core features complete, share link creation endpoint missing (high priority)*
+*Project Status: Active Development - Core features complete, monitoring/alerts v1 implemented, mobile-responsive redesign complete, share link creation endpoint missing (high priority)*
